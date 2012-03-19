@@ -3,6 +3,7 @@ Tutorial = function(input) {
 
     self.init = function() {
         self.steps = input.tutorialSteps;
+        self.duration = input.duration;
         self.timeouts = new Array();
         
         self.overlay = $('<div>').attr('id', 'overlay').css({
@@ -51,7 +52,7 @@ Tutorial = function(input) {
                 var timeout = setTimeout(function() {
                     self.steps[index].stop();
                     self.play(index + 1)();
-                }, 3000);
+                }, self.duration);
                 self.timeouts.push(timeout);
             } else {
                 self.hideTutorial();
