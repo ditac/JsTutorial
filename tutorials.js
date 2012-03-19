@@ -47,9 +47,9 @@ Tutorial = function(input) {
     self.play = function(index) {
         return function() {
             if(index < self.steps.length) {
-                self.steps[index].play(self.label, self.overlay);
+                self.steps[index].play(self.label);
                 var timeout = setTimeout(function() {
-                    self.steps[index].stop(self.label, self.overlay);
+                    self.steps[index].stop();
                     self.play(index + 1)();
                 }, 3000);
                 self.timeouts.push(timeout);
@@ -79,18 +79,13 @@ TutorialStep = function(input) {
         self.text = input.text;
     };
 
-    self.play = function(label, overlay) {
-        overlay.detach();
+    self.play = function(label) {
         $(self.selector).css({'z-index': '3000', 'position' : 'relative'});
         label.html(self.text);
-        overlay.appendTo('body');
     };
 
-    self.stop = function(label, overlay) {
-        overlay.detach();
+    self.stop = function() {
         $(self.selector).css({'z-index': '0'});
-        label.html('');
-        overlay.appendTo('body');
     }
 
     self.init();
