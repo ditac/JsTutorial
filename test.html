@@ -1,28 +1,112 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <script src="jquery-1.7.1.min.js"></script>
-    <script src="tutorials.js"></script>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Tutorial Demo</title>
-    </head>
-  <body>
-    <input id="amount" type="Text">
-    <input id="transfer" type="Button" value="Transfer">
-    <script>
-        new Tutorial({
-            duration: 1000,
-            tutorialSteps : [
-                    new TutorialStep({
-                        selector: '#amount',
-                        text: 'Enter the amount here'}
-                    ),
-                    new TutorialStep({
-                        selector: '#transfer',
-                        text:'Click this button to transfer the money'
-                    })
-                ]
-        });
-    </script>
-  </body>
+<head>
+<script src="jquery-1.7.1.min.js"></script>
+<script src="tutorials.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Tutorial Demo</title>
+<style>
+#siteFrame{
+	height: 800px;
+width: 800px;
+}
+</style>
+</head>
+<body>
+<input id="amount" type="Text">
+<input id="transfer" type="Button" value="Transfer">
+<script>
+/*
+   new Tutorial({
+   duration: 1000,
+   tutorialSteps : [
+   new TutorialStep({
+   selector: '#amount',
+   text: 'Enter the amount here'}
+   ),
+   new TutorialStep({
+   selector: '#transfer',
+   text:'Click this button to transfer the money'
+   })
+   ]
+   });
+ */
+ detectSelector = function(passedElement){
+            var element = $(passedElement);
+            var tagName = $(element)[0].tagName.toLowerCase();
+            if($(element).attr('name')){
+              return '[name='+$(element).attr('name')+']';
+            } else if($(element).attr('id')){
+              return '#'+$(element).attr('id');
+            } else if($(element).parent().children(tagName).length == 1){
+              var parentSelector = KOBJ.detectSelector($(element).parent());
+              return parentSelector + '>' + tagName;
+            } else if($(element).attr('class')){
+              var elementClass = $(element).attr('class');
+              if($('.'+elementClass).length == 1){
+                return '.'+elementClass;
+              } else {
+                var counter = 0; var tmpReturn = '';
+                $('.'+elementClass).each(function(){
+                  var data = $(this);
+                  if($(element)[0] == $(data)[0]){
+                    tmpReturn = '.' + $(element).attr('class') + ':eq(' + counter + ')';
+                    return false;
+                  } counter++;
+                });
+                if(tmpReturn){
+                  return tmpReturn;
+                }
+              }
+            } else {
+              var parentSelector = detectSelector($(element).parent());
+              var counter = 0;
+              var tmpReturn = '';
+              $(parentSelector + '>' + tagName).each(function(){
+                var data = $(this);
+                if($(element)[0] == $(data)[0]){
+                  tmpReturn = parentSelector + '>' + tagName + ':eq(' + counter + ')';
+                  return false;
+                } counter++;
+              });
+              if(tmpReturn){
+                return tmpReturn;
+              }
+            }
+          };
+var steps = [];
+var tutorial = new Tutorial({
+   duration: 1000,
+   tutorialSteps : []
+   });
+
+function createSteps()
+{
+	$("body").bind("mousedown",onMouseDown);
+}
+
+function onMouseDown(event)
+{
+	var element = document.elementFromPoint(event.pageX,event.pageY); 	
+tutorial.steps.push(new TutorialStep({
+   selector: detectSelector(element),
+   text: 'Allow user to enter text'}
+   ));
+}
+
+$(document).ready(function(){
+	$("#start").click(function(){
+		createSteps();
+	});	
+	$("#stop").click(function(){
+		$("body").unbind("mousedown",onMouseDown);
+	});	
+});
+</script>
+
+
+<input id="start" type="Button" value="Start Recording">
+<input id="stop" type="Button" value = "Stop Recording">
+</body>
 </html>
+
