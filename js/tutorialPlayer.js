@@ -14,8 +14,10 @@ Brihaspati.TutorialPlayer = function(input) {
         $(document).keydown(function(event) {
             if(event.keyCode == 112) {
                 self.play();
+                event.preventDefault();
             } else if(event.keyCode == 27){
                 self.stop();
+                event.preventDefault();
             }
         });
     };
