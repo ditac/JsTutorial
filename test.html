@@ -2,35 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <script src="jquery-1.7.1.min.js"></script>
-<script src="tutorials.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/tutorial.js"></script>
+<script src="js/tutorialStep.js"></script>
+<script src="js/helpPanel.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="css/help.css" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Tutorial Demo</title>
-<style>
-#siteFrame{
-	height: 800px;
-width: 800px;
-}
-</style>
 </head>
+
 <body>
-<input id="amount" type="Text">
-<input id="transfer" type="Button" value="Transfer">
 <script>
 /*
-   new Tutorial({
-   duration: 1000,
-   tutorialSteps : [
-   new TutorialStep({
-   selector: '#amount',
-   text: 'Enter the amount here'}
-   ),
-   new TutorialStep({
-   selector: '#transfer',
-   text:'Click this button to transfer the money'
-   })
-   ]
-   });
- */
  detectSelector = function(passedElement){
             var element = $(passedElement);
             var tagName = $(element)[0].tagName.toLowerCase();
@@ -102,11 +85,27 @@ $(document).ready(function(){
 		$("body").unbind("mousedown",onMouseDown);
 	});	
 });
+*/
+var tutorialPlayer = new Brihaspati.TutorialPlayer({
+    duration: 3000,
+    steps : [new Brihaspati.TutorialStep({
+            selector: '#amount',
+            instructions: 'Enter the amount here'
+        }),
+        new Brihaspati.TutorialStep({
+            selector: '#transfer',
+            instructions:'Click this button to transfer the money'
+        })],
+    helpPanel: new Brihaspati.HelpPanel()
+});
 </script>
 
-
+<form>
+<input id="amount" type="Text">
+<input id="transfer" type="Button" value="Transfer">
 <input id="start" type="Button" value="Start Recording">
 <input id="stop" type="Button" value = "Stop Recording">
+</form>
+
 </body>
 </html>
-
