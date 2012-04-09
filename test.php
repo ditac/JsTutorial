@@ -6,6 +6,7 @@
 		<script src="js/tutorialPlayer.js"></script>
 		<script src="js/tutorialStep.js"></script>
 		<script src="js/helpPanel.js"></script>
+		<script src="js/walkthroughEditor.js"></script>
 		<link rel="stylesheet" type="text/css" media="screen" href="css/help.css" />
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Tutorial Demo</title>
@@ -15,14 +16,12 @@
 		<script>
 			var tutorialPlayer = new Brihaspati.TutorialPlayer({
 				duration: 3000,
-				steps : [new Brihaspati.TutorialStep({
-					selector: '#amount',
-					instructions: 'Enter the amount here'
-				}),
-				new Brihaspati.TutorialStep({
-					selector: '#transfer',
-					instructions:'Click this button to transfer the money'
-				})],
+				steps : [
+				<?php
+				$section = file_get_contents('tutorialSteps.json');
+				print $section;
+				?>
+				],
 				helpPanel: new Brihaspati.HelpPanel()
 			});
 		</script>

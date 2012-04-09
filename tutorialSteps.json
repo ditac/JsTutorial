@@ -1,0 +1,1 @@
+new Brihaspati.TutorialStep({ selector:'#amount' ,instructions: 'Dumb'}),new Brihaspati.TutorialStep({ selector:'#transfer' ,instructions: 'Dumber'})
