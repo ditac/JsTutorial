@@ -48,6 +48,16 @@ BrihaspatiUtils.newFrame = function() {
     return frame;
 };
 
+BrihaspatiUtils.newSpinner = function() {
+    return $('<div>').css({
+        'background'    : 'none repeat scroll 0 0 #FFFFFF',
+        'padding'       : '6px',
+        'margin'        : '5px',
+        'line-height'   : '14px',
+        'font-size'     : '14px'
+    }).append($('<img>').attr('src', 'images/spinner.gif').css({'margin-right': '8px', 'float' : 'left'}));
+};
+
 BrihaspatiUtils.IdGenerator = new function() {
     var self = this;
 

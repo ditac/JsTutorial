@@ -1,9 +1,6 @@
 <?php
-
-$myFile = "tutorialSteps.json";
-$fh = fopen($myFile, 'w') or die("can't open file");
+$myFile = "help/index.json";
+$fh = fopen($myFile, 'w') or die("Can't open file");
 fwrite($fh, $_POST["string"]);
 fclose($fh);
-
 ?>
-

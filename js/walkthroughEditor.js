@@ -51,7 +51,7 @@ var test = "";
 function onMouseDown(event)
 {
 	var element = document.elementFromPoint(event.pageX,event.pageY); 	
-	source.postMessage(detectSelector(element),"http://127.0.0.1");
+	source.postMessage(detectSelector(element),"http://127.0.0.1/brihaspati");
 }
 
 var source;

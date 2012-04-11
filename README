@@ -1,1 +1,6 @@
-Open record.php, Record your tutorial. Now open test.php and press F1 to playback.
+Developer Instructions
+
+1. Install XAMPP
+2. Copy the contents of this folder to INSTALL_DIR/htdocs/brihaspati
+3. Load http://127.0.0.1/brihaspati/record.php
+4. Once you record instructions, you can preview by clicking on the frame and hitting F1

@@ -11,6 +11,7 @@ Brihaspati.HelpPanel = function(input) {
 
     self.init = function() {
         // TODO: Make this resizable (with jQuery 1.8)
+        self.helpSpinner = BrihaspatiUtils.newSpinner().addClass('hidden').append('Loading...');
         self.helpSlider = $('<div>').addClass('help-slider');
         self.helpOverlay = $('<div>').addClass('help-overlay');
 
@@ -29,8 +30,19 @@ Brihaspati.HelpPanel = function(input) {
             )
         );
 
+        self.helpSlider.append(self.helpSpinner);
         self.helpSlider.append(self.helpTable);
         $('body').append(self.helpSlider);
+    };
+
+    self.showSpinner = function() {
+        self.helpSpinner.removeClass('hidden');
+        self.helpTable.addClass('hidden');
+    };
+
+    self.hideSpinner = function() {
+        self.helpSpinner.addClass('hidden');
+        self.helpTable.removeClass('hidden');
     };
 
     self.hide = function() {
