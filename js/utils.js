@@ -58,6 +58,72 @@ BrihaspatiUtils.newSpinner = function() {
     }).append($('<img>').attr('src', 'images/spinner.gif').css({'margin-right': '8px', 'float' : 'left'}));
 };
 
+BrihaspatiUtils.getSelectorByElement = function(input) {
+    if(!input) {
+        return null;
+    }
+
+    var element = $(input);
+    if(!element) {
+        return null;
+    }
+
+    var tagName = $(element)[0].tagName;
+    if(!tagName) {
+        return null;
+    }
+
+    tagName = tagName.toLowerCase()
+
+    if($(element).attr('name')) {
+        return '[name=' + $(element).attr('name') + ']';
+    } else if($(element).attr('id')) {
+        return '#' + $(element).attr('id');
+    } else if($(element).parent().children(tagName).length == 1) {
+        var parentSelector = BrihaspatiUtils.getSelectorByElement($(element).parent());
+        return parentSelector + '>' + tagName;
+    } else if($(element).attr('class')) {
+        var elementClass = $(element).attr('class');
+        if($('.' + elementClass).length == 1) {
+            return '.' + elementClass;
+        } else {
+            var counter = 0;
+            var tmpReturn = '';
+            $('.' + elementClass).each(function() {
+                var data = $(this);
+                if($(element)[0] == $(data)[0]) {
+                    tmpReturn = '.' + $(element).attr('class') + ':eq(' + counter + ')';
+                    return false;
+                }
+                counter++;
+            });
+            if(tmpReturn) {
+                return tmpReturn;
+            }
+        }
+    } else {
+        var parentSelector = BrihaspatiUtils.getSelectorByElement($(element).parent());
+        var counter = 0;
+        var tmpReturn = '';
+        $(parentSelector + '>' + tagName).each(function() {
+            var data = $(this);
+            if($(element)[0] == $(data)[0]) {
+                tmpReturn = parentSelector + '>' + tagName + ':eq(' + counter + ')';
+                return false;
+            }
+            counter++;
+        });
+        if(tmpReturn) {
+            return tmpReturn;
+        }
+    }
+    return null;
+};
+
+BrihaspatiUtils.getSelectorByPosition = function(x, y) {
+    return BrihaspatiUtils.getSelectorByElement(document.elementFromPoint(x, y));
+}
+
 BrihaspatiUtils.IdGenerator = new function() {
     var self = this;
 

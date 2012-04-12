@@ -6,6 +6,8 @@ Brihaspati.Tutorial = function(input) {
     var self = this;
 
     self.init = function() {
+        self.isRecording = input.isRecording;
+
         self.duration = 1000;
         self.currentStep = 0;
         self.contents = null;
@@ -24,12 +26,11 @@ Brihaspati.Tutorial = function(input) {
     };
 
     self.showHelp = function() {
-        clearInterval(self.interval);
-        self.currentStep = 0;
         self.helpPanel.show();
 
         self.loadContentsAndCallback(function() {
             self.nextStep();
+            clearInterval(self.interval);
             self.interval = setInterval(function() { self.nextStep(); }, self.duration);
         });
     };
@@ -42,6 +43,15 @@ Brihaspati.Tutorial = function(input) {
     };
 
     self.loadContentsAndCallback = function(callback) {
+        if(self.contents) {
+            // Contents are already available. No need for another AJAX call
+            // unless, we are recording, in which case the contents may be invalid
+            if(!self.isRecording) {
+                self.currentStep = 0;
+                callback();
+            }
+        }
+
         jQuery.ajax({
             url: "help.php",
             type: 'GET',
