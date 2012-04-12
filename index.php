@@ -30,11 +30,32 @@
                 new Brihaspati.SneakPeekClient({
                     recorderUrl : decodeURIComponent('<? echo $_GET["recorderUrl"] ?>')
                 });
+
+                // Basic highlighting
+                // TODO: Code cleanup
+                // TODO: Firebug style highlighting
+                // TODO: Highlight only while recoding
+                $('body').mousemove(function(e) {
+                    var selector = BrihaspatiUtils.getSelectorByPosition(e.pageX, e.pageY);
+                    if(selector != null) {
+                        $('.brihaspati-highlighted').removeClass('brihaspati-highlighted');
+                        if(! $(selector).hasClass('brihaspati-selected')) {
+                            $(selector).addClass('brihaspati-highlighted');
+                        }
+                    }
+                });
+                $('body').click(function(e) {
+                    var selector = BrihaspatiUtils.getSelectorByPosition(e.pageX, e.pageY);
+                    if(selector != null) {
+                        $('.brihaspati-selected').removeClass('brihaspati-selected');
+                        $(selector).addClass('brihaspati-selected');
+                    }
+                });
             <? } else { ?>
                 new Brihaspati.Tutorial({
                     isRecording : false
                 });
             <? } ?>
-        </script>
+            </script>
     </body>
 </html>
